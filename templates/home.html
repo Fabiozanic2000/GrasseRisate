@@ -9,6 +9,7 @@
         {% if user.is_authenticated %}
             <div style="text-align: center;">Sei loggato col nome {{ user.username }}</div>
             <a href="{% url  "aggiungi_battuta"%}">Aggiungi una battuta!</a>
+            <a href="{% url  "profilo" pk=request.user.id %}">Vai al tuo profilo!</a>
             <a href='{% url 'logout' %}'>Logout</a>
             {% else %}
             Non sei loggato, però puoi fare queste cose

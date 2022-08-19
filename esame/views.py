@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, DetailView
 
 from esame.models import Battute
 
@@ -25,3 +26,7 @@ class AggiungiBattuta(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.utente = self.request.user
         return super().form_valid(form)
+
+class ProfiloView(DetailView):
+    template_name = 'profilo.html'
+    model = User
