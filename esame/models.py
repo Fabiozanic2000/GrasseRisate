@@ -21,3 +21,7 @@ class Recensioni(models.Model):
     utente = models.ForeignKey(User, on_delete=models.CASCADE)
     battuta = models.ForeignKey(Battute, on_delete=models.CASCADE)
     voto = models.SmallIntegerField(validators=[MinValueValidator('1'), MaxValueValidator('10')])
+
+class ProfiloDettagliato(models.Model):
+    utente= models.ForeignKey(User, on_delete=models.CASCADE)
+    foto_profilo = models.ImageField
