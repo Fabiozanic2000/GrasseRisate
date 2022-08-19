@@ -1,0 +1,17 @@
+<html lang="en">
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+
+<head>
+    <title> Registrazione</title>
+</head>
+
+<a href="{% url 'home' %}">Torna alla home </a>
+
+<div style="text-align: center;"><form method='post'>{%  csrf_token %}
+
+    {{ form|crispy}}
+
+    <input type='submit' value='REGISTRATI!'>
+</form></div>
+</html>

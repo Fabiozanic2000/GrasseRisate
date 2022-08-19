@@ -1,0 +1,9 @@
+<html>
+
+<a href="{% url 'home' %}">Torna alla home </a>
+
+<form method="post"> {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="aggiungi!">
+</form>
+</html>

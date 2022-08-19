@@ -1,0 +1,23 @@
+<html lang="en">
+    <head>
+        
+        <title>Home GRASSERISATE</title>
+    </head>
+
+    <body>
+        <h1> <div style="text-align: center;"> Benvenuto su GRASSERISATE!</div></h1>
+        {% if user.is_authenticated %}
+            <div style="text-align: center;">Sei loggato col nome {{ user.username }}</div>
+            <a href="{% url  "aggiungi_battuta"%}">Aggiungi una battuta!</a>
+            <a href='{% url 'logout' %}'>Logout</a>
+            {% else %}
+            Non sei loggato, però puoi fare queste cose
+            <a href="{% url 'registrazione' %}">Registrati!</a><br>
+            <a href="{% url 'login' %}">Loggati!</a>
+
+        {% endif %}
+
+
+    </body>
+
+</html>
