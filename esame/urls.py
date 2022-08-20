@@ -26,5 +26,6 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     path('register/', views.RegistrazioneView.as_view(), name='registrazione'),
     path('add', views.AggiungiBattuta.as_view(), name='aggiungi_battuta'),
-    path('profile/<int:pk>', views.ProfiloView.as_view(), name='profilo')
+    path('profile/<int:pk>', views.ProfiloView.as_view(), name='profilo'),
+    path('review/<int:pk>', views.AggiungiRecensione.as_view(), name='aggiungi_recensione')
 ]

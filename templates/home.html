@@ -45,11 +45,11 @@
         {% for b in object_list %}
 
             <div class="card">
-                <h4 class="card-header"> {{ b.utente }}</h4>
+                <h4 class="card-header"> {{ b.utente }} </h4>
                 <div class="card-body">
                     <h6 class="card-title" > <small>{{ b.tipo }}</small>  </h6>
                     <p class="card-text"> {{ b.testo }} </p>
-                    <a href="#" class="btn btn-primary">Recensisci!</a>
+                    <a href="{% url "aggiungi_recensione" pk=b.id %}" class="btn btn-primary">Recensisci!</a>
                 </div>
 
             </div>

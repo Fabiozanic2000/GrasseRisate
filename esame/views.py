@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 
-from esame.models import Battute
+
+from esame.models import Battute, Recensioni
 
 
 class HomeView(ListView):
@@ -32,3 +33,15 @@ class AggiungiBattuta(LoginRequiredMixin, CreateView):
 class ProfiloView(DetailView):
     template_name = 'profilo.html'
     model = User
+
+
+class AggiungiRecensione(LoginRequiredMixin, CreateView):
+    model = Recensioni
+    template_name = 'aggiungi_recensione.html'
+    fields = ('voto', )
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form,):
+        form.instance.utente = self.request.user
+        form.instance.battuta_id = self.kwargs['pk']
+        return super().form_valid(form)
