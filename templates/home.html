@@ -1,10 +1,13 @@
 <html lang="en">
-    <head>
-        
-        <title>Home GRASSERISATE</title>
-    </head>
 
-    <body>
+{% extends 'base.html' %}
+
+{% block titolo %}
+    GRASSERISATE
+{% endblock %}
+
+{% block contenuto %}
+
         <h1> <div style="text-align: center;"> Benvenuto su GRASSERISATE!</div></h1>
         {% if user.is_authenticated %}
             <div style="text-align: center;">Sei loggato col nome {{ user.username }}</div>
@@ -18,7 +21,16 @@
 
         {% endif %}
 
+    {% for b in object_list %}
+        <ul> {{ b.utente }}</ul>
+         <ul> {{ b.tipo }}</ul>
+         <ul> {{ b.testo }}</ul>
+         <ul> {{ b.tempo }}</ul>
 
-    </body>
+        ---------------------------------
+    {%  endfor %}
+
+{% endblock %}
+
 
 </html>

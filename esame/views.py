@@ -2,13 +2,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView
 
 from esame.models import Battute
 
 
-class HomeView(TemplateView):
+class HomeView(ListView):
     template_name = 'home.html'
+    model = Battute
 
 
 class RegistrazioneView(CreateView):
@@ -26,6 +27,7 @@ class AggiungiBattuta(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.utente = self.request.user
         return super().form_valid(form)
+
 
 class ProfiloView(DetailView):
     template_name = 'profilo.html'
