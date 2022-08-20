@@ -1,7 +1,36 @@
-<html>
+<html lang="en">
 
-<div style="text-align: center;"><a href="{% url 'home' %}">Torna alla home </a> </div>
+{% extends 'base.html' %}
 
-{{ object.username }} <br>
-{{ object.email }} <br>
+{% block titolo %}
+    {{ user.username }}
+{% endblock %}
+
+{% block contenuto %}
+    <div class="container">
+        <p class="h1" style="text-align:center"> Profilo di {{ user.username }}</p>
+
+        <table class="table" style="text-align: center">
+            <tbody>
+            <tr>
+                <th>Email</th>
+                <th> <p class="h6" style="text-align:center">{{ user.email }} </p></th>
+            </tr>
+            <tr>
+                <th>ID</th>
+                <th> <p class="h6" style="text-align:center">{{ user.id }} </p></th>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <th> <p class="h6" style="text-align:center">Zukkerino</p></th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+{% endblock %}
 </html>

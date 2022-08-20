@@ -1,9 +1,31 @@
-<html>
+<html lang="en">
 
-<a href="{% url 'home' %}">Torna alla home </a>
+{% extends 'base.html' %}
 
-<form method="post"> {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="aggiungi!">
-</form>
+{%  block titolo %} Aggiunta battuta {% endblock %}
+
+{% block contenuto %}
+
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <p>Scrivi la tua battuta e scatena il riso (e non la pasta!)</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            <cite title="Source Title">Io in un momento molto triste</cite>
+        </figcaption>
+    </figure>
+
+    <div style="text-align: center">
+        <form method="post"> {% csrf_token %}
+
+            {{ form.as_p }}
+
+
+            <input  type="submit" value="Aggiungi">
+            </button>
+
+        </form>
+    </div>
+
+{% endblock %}
 </html>

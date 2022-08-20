@@ -6,30 +6,60 @@
     GRASSERISATE
 {% endblock %}
 
-{% block contenuto %}
 
-        <h1> <div style="text-align: center;"> Benvenuto su GRASSERISATE!</div></h1>
+{% block contenuto %}
+    <div class="container">
+        <h1> <div style="text-align: center;"> Benvenuto su GRASSERISATE {% if user.is_authenticated %} , {{ user.username }}{% endif %}!</div></h1>
+        <p class="lead" style="text-align:center">
+            Ecco le ultime battute pubblicate dagli utenti!
+        </p>
         {% if user.is_authenticated %}
-            <div style="text-align: center;">Sei loggato col nome {{ user.username }}</div>
-            <a href="{% url  "aggiungi_battuta"%}">Aggiungi una battuta!</a>
-            <a href="{% url  "profilo" pk=request.user.id %}">Vai al tuo profilo!</a>
-            <a href='{% url 'logout' %}'>Logout</a>
-            {% else %}
+            <div style="text-align:center">
+                <a href="{% url  "aggiungi_battuta"%}">
+                    <button type="button" class="btn btn-primary">
+                        Aggiungi una battuta!
+                    </button>
+                </a>
+                <a href="{% url  "profilo" pk=request.user.id %}">
+                    <button type="button" class="btn btn-info">
+                        Vai al tuo profilo!
+                    </button>
+                </a>
+
+                <a href='{% url 'logout' %}'>
+                    <button type="button" class="btn btn-danger">
+                        Logout
+                    </button>
+                </a>
+            </div>
+
+        {% else %}
             Non sei loggato, però puoi fare queste cose
             <a href="{% url 'registrazione' %}">Registrati!</a><br>
             <a href="{% url 'login' %}">Loggati!</a>
+            </div>
 
         {% endif %}
+    <br>
+    <div style="text-align:center">
+        {% for b in object_list %}
 
-    {% for b in object_list %}
-        <ul> {{ b.utente }}</ul>
-         <ul> {{ b.tipo }}</ul>
-         <ul> {{ b.testo }}</ul>
-         <ul> {{ b.tempo }}</ul>
+            <div class="card">
+                <h4 class="card-header"> {{ b.utente }}</h4>
+                <div class="card-body">
+                    <h6 class="card-title" > <small>{{ b.tipo }}</small>  </h6>
+                    <p class="card-text"> {{ b.testo }} </p>
+                    <a href="#" class="btn btn-primary">Recensisci!</a>
+                </div>
 
-        ---------------------------------
-    {%  endfor %}
+            </div>
 
+            <br>
+
+
+
+        {%  endfor %}
+    </div>
 {% endblock %}
 
 
