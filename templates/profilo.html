@@ -7,27 +7,50 @@
 {% endblock %}
 
 {% block contenuto %}
+
     <div class="container">
         <p class="h1" style="text-align:center"> Profilo di {{ object.username }}</p>
+
+        <div style="text-align: center;"><a href="{% url 'modifica_profilo' pk=user.id %}">
+            <button type="button" class="btn btn-primary">Modifica profilo</button>
+        </a></div>
 
         <table class="table" style="text-align: center">
             <tbody>
             <tr>
+                <th>Foto</th>
+                <th><p class="h6" style="text-align:center"><img src="{{ profilo.foto_profilo }}"> </p></th>
+            </tr>
+            <tr>
+                <th>Media recensioni battute</th>
+                <th><p class="h6" style="text-align:center"> Ci andrebbe la media </p></th>
+            </tr>
+            <tr>
+                <th>Nome</th>
+                <th><p class="h6" style="text-align:center">{{ profilo.nome }} </p></th>
+            </tr>
+            <tr>
+                <th>Cognome</th>
+                <th><p class="h6" style="text-align:center">{{ profilo.cognome }} </p></th>
+            </tr>
+            <tr>
                 <th>Email</th>
-                <th> <p class="h6" style="text-align:center">{{ object.email }} </p></th>
+                <th><p class="h6" style="text-align:center">{{ profilo.email }}</p></th>
             </tr>
             <tr>
-                <th>Nome</th>
-                <th> <p class="h6" style="text-align:center">{{ object.first_name }} </p></th>
+                <th>Data di nascita</th>
+                <th><p class="h6" style="text-align:center">{{ profilo.datadinascita }}</p></th>
             </tr>
             <tr>
-                <th>Nome</th>
-                <th> <p class="h6" style="text-align:center">{{ object.first_name }}</p></th>
+                <th>Città</th>
+                <th><p class="h6" style="text-align:center">{{ profilo.citta }}</p></th>
             </tr>
             <tr>
                 <th>Bio</th>
-                <th> <p class="h6" style="text-align:center">{{ boh.bio}}</p></th>
+                <th><p class="h6" style="text-align:center"> {{ profilo.bio }} </p></th>
             </tr>
+
+
             </tbody>
         </table>
     </div>
