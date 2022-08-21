@@ -3,10 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Avg
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView
 
-from esame import models
-from esame.models import Battute, Recensioni
+from esame.models import Battute, Recensioni, ProfiloDettagliato
 
 
 class HomeView(ListView):
@@ -35,6 +34,11 @@ class ProfiloView(DetailView):
     template_name = 'profilo.html'
     model = User
 
+    def get_context_data(self, **kwargs):
+        context = super(ProfiloView, self).get_context_data(**kwargs)
+        context['boh'] = ProfiloDettagliato.objects.get(utente=self.request.user)
+        return context
+
 
 class AggiungiRecensione(LoginRequiredMixin, CreateView):
     model = Recensioni
@@ -47,12 +51,5 @@ class AggiungiRecensione(LoginRequiredMixin, CreateView):
         form.instance.battuta_id = self.kwargs['pk']
         return super().form_valid(form)
 
-    def calcola_media(self):
-        media = (Battute.objects
-                .filter(status=True)
-                .annotate(avg_review=Avg('voto'))
-                )
-
-        return media
 
 

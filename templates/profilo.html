@@ -8,21 +8,25 @@
 
 {% block contenuto %}
     <div class="container">
-        <p class="h1" style="text-align:center"> Profilo di {{ user.username }}</p>
+        <p class="h1" style="text-align:center"> Profilo di {{ object.username }}</p>
 
         <table class="table" style="text-align: center">
             <tbody>
             <tr>
                 <th>Email</th>
-                <th> <p class="h6" style="text-align:center">{{ user.email }} </p></th>
+                <th> <p class="h6" style="text-align:center">{{ object.email }} </p></th>
             </tr>
             <tr>
-                <th>ID</th>
-                <th> <p class="h6" style="text-align:center">{{ user.id }} </p></th>
+                <th>Nome</th>
+                <th> <p class="h6" style="text-align:center">{{ object.first_name }} </p></th>
             </tr>
             <tr>
-                <th>Password</th>
-                <th> <p class="h6" style="text-align:center">Zukkerino</p></th>
+                <th>Nome</th>
+                <th> <p class="h6" style="text-align:center">{{ object.first_name }}</p></th>
+            </tr>
+            <tr>
+                <th>Bio</th>
+                <th> <p class="h6" style="text-align:center">{{ boh.bio}}</p></th>
             </tr>
             </tbody>
         </table>

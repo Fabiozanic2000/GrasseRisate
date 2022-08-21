@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import Avg
-from multiselectfield import MultiSelectField
 
 SCELTE = [('Sat', 'Satira'),
           ('Bar', 'Barzelletta'),
@@ -16,13 +15,12 @@ class Battute(models.Model):
     testo = models.TextField(default="")
     utente = models.ForeignKey(User, on_delete=models.CASCADE)
     tempo = models.DateTimeField(auto_now=True)
-    tipo = MultiSelectField(choices=SCELTE, max_length=3, default='bar')
-
+    tipo = models.CharField(choices=SCELTE, default='bar', max_length=3)
 
     @property
-    def calcolamedia(self):
+    def calcola_media(self):
         media_tupla = self.battutarec.all().aggregate(Avg('voto'))
-        media_lunga=media_tupla['voto__avg']
+        media_lunga = media_tupla['voto__avg']
         if type(media_lunga) is NoneType:
             media = media_lunga
         else:
@@ -37,5 +35,6 @@ class Recensioni(models.Model):
 
 
 class ProfiloDettagliato(models.Model):
-    utente = models.ForeignKey(User, on_delete=models.CASCADE)
+    utente = models.OneToOneField(User, on_delete=models.CASCADE, related_name='utentedet')
     foto_profilo = models.ImageField
+    bio = models.TextField(default="")
