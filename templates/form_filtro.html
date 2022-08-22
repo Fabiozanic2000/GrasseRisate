@@ -1,0 +1,15 @@
+<html lang="en">
+
+{% block titolo %}
+    Form filtro
+{% endblock %}
+
+{% block contenuto %}
+
+    <form action="{% url 'filtro' %}" method="POST"> {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Search"> </form>
+
+
+{% endblock %}
+</html>

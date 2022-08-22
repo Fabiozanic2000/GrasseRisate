@@ -28,5 +28,7 @@ urlpatterns = [
     path('add', views.AggiungiBattuta.as_view(), name='aggiungi_battuta'),
     path('profile/<int:pk>', views.ProfiloView.as_view(), name='profilo'),
     path('review/<int:pk>', views.AggiungiRecensione.as_view(), name='aggiungi_recensione'),
-    path('modify/<int:pk>', views.ModificaProfilo.as_view(),name='modifica_profilo')
+    path('modify/<int:pk>', views.ModificaProfilo.as_view(), name='modifica_profilo'),
+    path('filter/', views.filtro, name='filtro'),
+    path('filtered/<str:tipo>', views.VistaFiltrata.as_view(), name='vista_filtrata')
 ]

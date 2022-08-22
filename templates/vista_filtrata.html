@@ -1,11 +1,9 @@
-<html lang="en">
-
-{% extends 'base.html' %}
+<html>
+{% extends 'home.html' %}
 
 {% block titolo %}
-    GRASSERISATE
+    Vista filtrata
 {% endblock %}
-
 
 {% block contenuto %}
     <div class="container">
@@ -26,7 +24,7 @@
                     </button>
                 </a>
                 <a href="{% url  "filtro"%}">
-                    <button type="button" class="btn btn-secondary">
+                    <button type="button" class="btn btn-primary">
                         Filtra
                     </button>
                 </a>
