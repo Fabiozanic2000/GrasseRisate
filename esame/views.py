@@ -1,6 +1,9 @@
+from types import NoneType
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.db.models import Avg
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
@@ -16,7 +19,7 @@ class HomeView(ListView):
     model = Battute
 
     def get_queryset(self):
-        #qs = User.objects.all()
+        # qs = User.objects.all()
         return self.model.objects.order_by('-tempo')
 
 
@@ -44,6 +47,9 @@ class ProfiloView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProfiloView, self).get_context_data(**kwargs)
         context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
+        qs = Battute.objects.filter(utente=self.kwargs['pk'])
+        qs2 = Recensioni.objects.filter(battuta__in=qs).aggregate(Avg('voto')).get('voto__avg')
+        context['media'] = qs2
         if not context['profilo']:
             ProfiloDettagliato.objects.create(utente_id=self.kwargs['pk'])
             context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
@@ -115,3 +121,20 @@ class FeedView(LoginRequiredMixin, ListView):
         qs = Followers.objects.filter(seguitore=self.request.user).values('seguito')
         qs2 = Battute.objects.filter(utente__in=qs).order_by('-tempo')
         return qs2
+
+    def get_context_data(self, **kwargs):
+        context = super(FeedView, self).get_context_data(**kwargs)
+        lista = [(persona.media_profilo, persona.utente) for persona in ProfiloDettagliato.objects.all() if
+                 type(persona.media_profilo) is not NoneType]
+        lista.sort(reverse=True)
+        context['quanti'] = len(lista)
+        if len(lista) >= 1:
+            context['primo'] = lista[0][1]
+            context['primamedia'] = lista[0][0]
+        if len(lista) >= 2:
+            context['secondo'] = lista[1][1]
+            context['secondamedia'] = lista[1][0]
+        if len(lista) >= 3:
+            context['terzo'] = lista[2][1]
+            context['terzamedia'] = lista[1][0]
+        return context

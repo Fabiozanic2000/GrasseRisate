@@ -11,7 +11,43 @@
         <h1> <div style="text-align: center;"> Benvenuto su GRASSERISATE {% if user.is_authenticated %} , {{ user.username }}{% endif %}!</div></h1>
         <p class="lead" style="text-align:center">
             Ecco il tuo feed con le battute di chi segui!
-        </p>
+        <div class="container text-center">
+            <div class="row">
+                {% if quanti >= 1 %}
+                    <div class="col">
+                        <div class="card text-bg-warning mb-3" style="max-width: 18rem;">
+                            <div class="card-header"><div style="color:gold">Il più divertente</div></div>
+                            <div class="card-body">
+                                <h5 class="card-title"> <a href = {% url 'profilo' pk=primo.id %}>{{ primo.username }}</a></h5>
+                                <p class="card-text"> Media recensioni: {{ primamedia }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if quanti >= 2 %}
+                    <div class="col">
+                        <div class="card text-bg-warning mb-3" style="max-width: 18rem;">
+                            <div class="card-header"><div style="color:silver">Il secondo più divertente</div></div>
+                            <div class="card-body">
+                                <h5 class="card-title"> <a href = {% url 'profilo' pk=secondo.id %}>{{ secondo.username }}</a></h5>
+                                <p class="card-text"> Media recensioni: {{ secondamedia }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if quanti >= 3 %}
+                    <div class="col">
+                        <div class="card text-bg-warning mb-3" style="max-width: 18rem;">
+                            <div class="card-header"><div style="color:saddlebrown">Il terzo più divertente</div></div>
+                            <div class="card-body">
+                                <h5 class="card-title"> <a href = {% url 'profilo' pk=terzo.id %}>{{ terzo.username }}</a></h5>
+                                <p class="card-text"> Media recensioni: {{ terzamedia }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                {% endif %}
         {% if user.is_authenticated %}
             <div style="text-align:center">
                 <a href="{% url  "aggiungi_battuta"%}">
@@ -35,33 +71,33 @@
                         Logout
                     </button>
                 </a>
-            </div></div>
+            </div>
         {% endif %}
+        <br>
+        <div style="text-align:center">
+            {% for b in object_list %}
 
-    <br>
-    <div style="text-align:center">
-        {% for b in object_list %}
+                <div class="card">
+                    <h4 class="card-header"> <a href="{% url "profilo" pk=b.utente_id %}"> {{ b.utente }}  </a> </h4>
+                    <div class="card-body">
+                        <h6 class="card-title" > <small>{{ b.tipo }}</small>  </h6>
+                        <p class="card-text"> {{ b.testo }} </p>
+                        {% if user.is_authenticated %}
+                            <a href="{% url "aggiungi_recensione" pk=b.id %}" class="btn btn-primary">Recensisci!</a>
+                        {% else %}
+                            <p class="card-text" style="color:red"> Non puoi recensire perchè non hai effettuato il login </p>
+                        {% endif %}
+                        Media recensioni: {{ b.calcola_media}}
+                    </div>
 
-            <div class="card">
-                <h4 class="card-header"> <a href="{% url "profilo" pk=b.utente_id %}"> {{ b.utente }}  </a> </h4>
-                <div class="card-body">
-                    <h6 class="card-title" > <small>{{ b.tipo }}</small>  </h6>
-                    <p class="card-text"> {{ b.testo }} </p>
-                    {% if user.is_authenticated %}
-                        <a href="{% url "aggiungi_recensione" pk=b.id %}" class="btn btn-primary">Recensisci!</a>
-                    {% else %}
-                        <p class="card-text" style="color:red"> Non puoi recensire perchè non hai effettuato il login </p>
-                    {% endif %}
-                    Media recensioni: {{ b.calcola_media}}
                 </div>
 
-            </div>
-
-            <br>
+                <br>
 
 
 
-        {%  endfor %}
+            {%  endfor %}
+        </div>
     </div>
 
 {% endblock %}

@@ -12,17 +12,6 @@ SCELTE = [('Sat', 'Satira'),
           ('Bsq', 'Battute Squallide')]
 
 
-class ProfiloDettagliato(models.Model):
-    utente = AutoOneToOneField(User, on_delete=models.CASCADE, related_name='ciao', primary_key=True)
-    foto_profilo = models.ImageField(null=True)
-    bio = models.TextField(default="", blank=True)
-    nome = models.CharField(max_length=25, blank=True)
-    cognome = models.CharField(max_length=50, blank=True)
-    datadinascita = models.DateField(null=True)
-    email = models.EmailField(null=True)
-    citta = models.CharField(max_length=50, blank=True)
-
-
 class Battute(models.Model):
     testo = models.TextField(default="")
     utente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='utentebat')
@@ -54,3 +43,20 @@ class Followers(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['seguitore', 'seguito'], name='relazione di follow')
         ]
+
+
+class ProfiloDettagliato(models.Model):
+    utente = AutoOneToOneField(User, on_delete=models.CASCADE, related_name='ciao', primary_key=True)
+    foto_profilo = models.ImageField(null=True)
+    bio = models.TextField(default="", blank=True)
+    nome = models.CharField(max_length=25, blank=True)
+    cognome = models.CharField(max_length=50, blank=True)
+    datadinascita = models.DateField(null=True)
+    email = models.EmailField(null=True)
+    citta = models.CharField(max_length=50, blank=True)
+
+    @property
+    def media_profilo(self):
+        qs = Battute.objects.filter(utente=self.utente)
+        qs2 = Recensioni.objects.filter(battuta__in=qs).aggregate(Avg('voto')).get('voto__avg')
+        return qs2
