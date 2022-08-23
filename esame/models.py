@@ -45,6 +45,6 @@ class Recensioni(models.Model):
     voto = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
 
 
-class Follower(models.Model):
-    seguitore = models.ForeignKey(User, on_delete=models.CASCADE)
-    seguito = models.ForeignKey(User, on_delete=models.CASCADE)
+class Followers(models.Model):
+    seguitore = models.ForeignKey(User, on_delete=models.CASCADE, related_name="utente_seguitore")
+    seguito = models.ForeignKey(User, on_delete=models.CASCADE, related_name="utente_seguito")
