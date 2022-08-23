@@ -48,6 +48,8 @@ class ProfiloView(DetailView):
             context['puo_seguire'] = False
         else:
             context['puo_seguire'] = True
+        context['followers'] = Followers.objects.filter(seguito=self.request.user).count()
+        context['following'] = Followers.objects.filter(seguitore=self.request.user).count()
         return context
 
 
