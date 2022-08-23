@@ -43,13 +43,14 @@ class ProfiloView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProfiloView, self).get_context_data(**kwargs)
         context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
-        puo_seguire = Followers.objects.filter(seguitore=self.request.user, seguito_id=self.kwargs['pk'])
-        if puo_seguire:
-            context['puo_seguire'] = False
-        else:
-            context['puo_seguire'] = True
-        context['followers'] = Followers.objects.filter(seguito=self.request.user).count()
-        context['following'] = Followers.objects.filter(seguitore=self.request.user).count()
+        if self.request.user.is_authenticated:
+            puo_seguire = Followers.objects.filter(seguitore=self.request.user, seguito_id=self.kwargs['pk'])
+            if puo_seguire:
+                context['puo_seguire'] = False
+            else:
+                context['puo_seguire'] = True
+        context['followers'] = Followers.objects.filter(seguito=self.kwargs['pk']).count()
+        context['following'] = Followers.objects.filter(seguitore=self.kwargs['pk']).count()
         return context
 
 
@@ -102,7 +103,7 @@ class FollowView(View):
         return HttpResponseRedirect(url)
 
 
-class FeedView(ListView):
+class FeedView(LoginRequiredMixin, ListView):
     model = Battute
     template_name = 'feed.html'
 

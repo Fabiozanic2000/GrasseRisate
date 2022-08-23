@@ -1,12 +1,20 @@
 <html lang="en">
 <!DOCTYPE html>
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-<head>
-    <title> Registrazione</title>
-</head>
 
-<a href="{% url 'home' %}">Torna alla home </a>
+
+{% block titolo %}
+    Registrazione
+{% endblock %}
+
+{% block contenuto %}
+    <br>
+    <div class="container" style="text-align: center">
+    <p class="h3">Inserire username e password per la registrazione</p>
+    <p class="h5"><i>Potrai aggiungere ulteriori dati a registrazione completata</i></p>
+        <br>
 
 <div style="text-align: center;"><form method='post'>{%  csrf_token %}
 
@@ -14,4 +22,7 @@
 
     <input type='submit' value='REGISTRATI!'>
 </form></div>
+    </div>
 </html>
+
+{% endblock %}

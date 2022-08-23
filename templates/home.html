@@ -41,13 +41,26 @@
                         Logout
                     </button>
                 </a>
-            </div>
+                         </div>
+
 
         {% else %}
-            Non sei loggato, però puoi fare queste cose
-            <a href="{% url 'registrazione' %}">Registrati!</a><br>
-            <a href="{% url 'login' %}">Loggati!</a>
+            <div style="text-align:right">
+            Non hai ancora un account?
+            <a href="{% url  "registrazione"%}">
+                    <button type="button" class="btn btn-primary btn-sm">
+                        Registrati!
+                    </button>
+                </a>
+                Hai già un account?
+            <a href="{% url  "login"%}">
+                    <button type="button" class="btn btn-primary btn-sm">
+                        Login
+                    </button>
+                </a>
             </div>
+            </div>
+
 
         {% endif %}
     <br>

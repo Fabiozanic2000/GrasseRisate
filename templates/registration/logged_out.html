@@ -1,4 +1,19 @@
-<a href='{% url 'home' %}'>Link per la home</a> <br>
+<html lang="en">
+{% extends 'base.html' %}
 
-Complimenti ti sei loggato out!
-Fenicottero
+{% block titolo %}
+    Logout avvenuto con successo
+{% endblock %}
+
+
+{% block contenuto %}
+    <br>
+    <div class="container">
+        <div style="text-align: center">
+            <p class="h1">Logout avvenuto con successo!</p>
+            <a href="{% url 'home' %}"><button type="button" class="btn btn-primary btn-lg">Torna alla home</button></a>
+        </div>
+
+    </div>
+{% endblock %}
+</html>

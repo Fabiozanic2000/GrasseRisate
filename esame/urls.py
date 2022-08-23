@@ -32,5 +32,5 @@ urlpatterns = [
     path('filter/', views.filtro, name='filtro'),
     path('filtered/<str:tipo>', views.VistaFiltrata.as_view(), name='vista_filtrata'),
     path('follow/<int:pk>', views.FollowView.as_view(), name='follow'),
-    path('/feed', views.FeedView.as_view(), name='feed')
+    path('feed', views.FeedView.as_view(), name='feed')
 ]

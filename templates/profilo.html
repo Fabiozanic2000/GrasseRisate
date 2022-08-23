@@ -10,18 +10,19 @@
 
     <div class="container">
         <p class="h1" style="text-align:center"> Profilo di {{ object.username }}</p>
-
-        {% if request.user.id == view.kwargs.pk %}
-            <div style="text-align: center;"><a href="{% url 'modifica_profilo' pk=user.id %}">
-                <button type="button" class="btn btn-primary">Modifica profilo</button>
-            </a></div>
-        {% else %}
-            {% if puo_seguire %}
-                <div style="text-align: center;"><a href="{% url 'follow' pk=view.kwargs.pk %}">
-                    <button type="button" class="btn btn-primary">Segui</button>
+        {% if user.is_authenticated %}
+            {% if request.user.id == view.kwargs.pk %}
+                <div style="text-align: center;"><a href="{% url 'modifica_profilo' pk=user.id %}">
+                    <button type="button" class="btn btn-primary">Modifica profilo</button>
                 </a></div>
+            {% else %}
+                {% if puo_seguire %}
+                    <div style="text-align: center;"><a href="{% url 'follow' pk=view.kwargs.pk %}">
+                        <button type="button" class="btn btn-primary">Segui</button>
+                    </a></div>
                 {% else %}
-                 <p class="h3" style="text-align:center;color:green"> Segui già</p>
+                    <p class="h3" style="text-align:center;color:green"> Segui già</p>
+                {% endif %}
             {% endif %}
 
         {% endif %}
@@ -73,10 +74,6 @@
             </tbody>
         </table>
     </div>
-
-
-
-
 
 {% endblock %}
 </html>

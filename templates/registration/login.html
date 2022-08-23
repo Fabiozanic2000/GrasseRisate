@@ -1,16 +1,25 @@
 <html lang="en">
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-<head>
-    <title> Login</title>
-</head>
+{% block titolo %}
+    Login
+{% endblock %}
 
-<a href="{% url 'home' %}">Torna alla home </a>
+{% block contenuto %}
+    <br>
+    <div class="container" style="text-align: center">
 
-<form method='post'>{%  csrf_token %}
+    <p class="h3">Inserire username e password per effettuare il login</p>
 
-    {{ form|crispy }}
+    <form method='post'>{%  csrf_token %}
 
-    <input type='submit' value='Login!'>
-</form>
+        {{ form|crispy}}
+
+        <input type='submit' value='Login!'>
+    </form>
+
+</div>
+
+{% endblock %}
 </html>
