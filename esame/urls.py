@@ -30,5 +30,7 @@ urlpatterns = [
     path('review/<int:pk>', views.AggiungiRecensione.as_view(), name='aggiungi_recensione'),
     path('modify/<int:pk>', views.ModificaProfilo.as_view(), name='modifica_profilo'),
     path('filter/', views.filtro, name='filtro'),
-    path('filtered/<str:tipo>', views.VistaFiltrata.as_view(), name='vista_filtrata')
+    path('filtered/<str:tipo>', views.VistaFiltrata.as_view(), name='vista_filtrata'),
+    path('follow/<int:pk>', views.FollowView.as_view(), name='follow'),
+    path('/feed', views.FeedView.as_view(), name='feed')
 ]

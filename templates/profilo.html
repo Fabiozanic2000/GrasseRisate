@@ -11,15 +11,26 @@
     <div class="container">
         <p class="h1" style="text-align:center"> Profilo di {{ object.username }}</p>
 
-        <div style="text-align: center;"><a href="{% url 'modifica_profilo' pk=user.id %}">
-            <button type="button" class="btn btn-primary">Modifica profilo</button>
-        </a></div>
+        {% if request.user.id == view.kwargs.pk %}
+            <div style="text-align: center;"><a href="{% url 'modifica_profilo' pk=user.id %}">
+                <button type="button" class="btn btn-primary">Modifica profilo</button>
+            </a></div>
+        {% else %}
+            {% if puo_seguire %}
+                <div style="text-align: center;"><a href="{% url 'follow' pk=view.kwargs.pk %}">
+                    <button type="button" class="btn btn-primary">Segui</button>
+                </a></div>
+                {% else %}
+                 <p class="h3" style="text-align:center;color:green"> Segui già</p>
+            {% endif %}
+
+        {% endif %}
 
         <table class="table" style="text-align: center">
             <tbody>
             <tr>
                 <th>Foto</th>
-                <th><p class="h6" style="text-align:center"><img src="{{ profilo.foto_profilo }}"> </p></th>
+                <th><p class="h6" style="text-align:center"><img src="{{ profilo.foto_profilo }}" alt="Immagine non disponibile"> </p></th>
             </tr>
             <tr>
                 <th>Media recensioni battute</th>

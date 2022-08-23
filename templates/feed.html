@@ -1,25 +1,19 @@
 <html lang="en">
 
-{% extends 'base.html' %}
+{%  extends 'base.html' %}
 
 {% block titolo %}
-    GRASSERISATE
+    Feed di {{ user.username }}
 {% endblock %}
-
 
 {% block contenuto %}
     <div class="container">
         <h1> <div style="text-align: center;"> Benvenuto su GRASSERISATE {% if user.is_authenticated %} , {{ user.username }}{% endif %}!</div></h1>
         <p class="lead" style="text-align:center">
-            Ecco le ultime battute pubblicate dagli utenti!
+            Ecco il tuo feed con le battute di chi segui!
         </p>
         {% if user.is_authenticated %}
             <div style="text-align:center">
-            <a href="{% url  "feed" %}">
-                    <button type="button" class="btn btn-warning">
-                        Il tuo feed
-                    </button>
-                </a>
                 <a href="{% url  "aggiungi_battuta"%}">
                     <button type="button" class="btn btn-primary">
                         Aggiungi una battuta!
@@ -41,15 +35,9 @@
                         Logout
                     </button>
                 </a>
-            </div>
-
-        {% else %}
-            Non sei loggato, però puoi fare queste cose
-            <a href="{% url 'registrazione' %}">Registrati!</a><br>
-            <a href="{% url 'login' %}">Loggati!</a>
-            </div>
-
+            </div></div>
         {% endif %}
+
     <br>
     <div style="text-align:center">
         {% for b in object_list %}
@@ -75,6 +63,7 @@
 
         {%  endfor %}
     </div>
+
 {% endblock %}
 
 

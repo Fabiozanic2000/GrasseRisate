@@ -1,20 +1,22 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from esame.forms import FormFiltro
-from esame.models import Battute, Recensioni, ProfiloDettagliato
+from esame.models import Battute, Recensioni, ProfiloDettagliato, Followers
 
 
 class HomeView(ListView):
     template_name = 'home.html'
     model = Battute
 
-    # def get_queryset(self):
-    #     return self.model.objects.order_by('-tempo')
+    def get_queryset(self):
+        return self.model.objects.order_by('-tempo')
 
 
 class RegistrazioneView(CreateView):
@@ -40,8 +42,12 @@ class ProfiloView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfiloView, self).get_context_data(**kwargs)
-        #prova = self.kwargs['pk']
         context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
+        puo_seguire = Followers.objects.filter(seguitore=self.request.user, seguito_id=self.kwargs['pk'])
+        if puo_seguire:
+            context['puo_seguire'] = False
+        else:
+            context['puo_seguire'] = True
         return context
 
 
@@ -83,5 +89,22 @@ class VistaFiltrata(ListView):
 
     def get_queryset(self):
         tipo2 = self.request.resolver_match.kwargs['tipo']
-        qs = Battute.objects.filter(tipo=tipo2)
+        qs = Battute.objects.filter(tipo=tipo2).order_by('-tempo')
         return qs
+
+
+class FollowView(View):
+    def get(self, request, *args, **kwargs):
+        Followers(seguitore=request.user, seguito_id=self.kwargs['pk']).save()
+        url = reverse("profilo", kwargs={"pk": self.kwargs['pk']})
+        return HttpResponseRedirect(url)
+
+
+class FeedView(ListView):
+    model = Battute
+    template_name = 'feed.html'
+
+    def get_queryset(self):
+        qs = Followers.objects.filter(seguitore=self.request.user).values('seguito')
+        qs2 = Battute.objects.filter(utente__in=qs).order_by('-tempo')
+        return qs2

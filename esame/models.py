@@ -48,3 +48,8 @@ class Recensioni(models.Model):
 class Followers(models.Model):
     seguitore = models.ForeignKey(User, on_delete=models.CASCADE, related_name="utente_seguitore")
     seguito = models.ForeignKey(User, on_delete=models.CASCADE, related_name="utente_seguito")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['seguitore', 'seguito'], name='relazione di follow')
+        ]
