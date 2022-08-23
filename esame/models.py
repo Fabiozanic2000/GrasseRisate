@@ -43,3 +43,8 @@ class Recensioni(models.Model):
     utente = models.ForeignKey(User, on_delete=models.CASCADE)
     battuta = models.ForeignKey(Battute, on_delete=models.CASCADE, to_field='id', related_name='battutarec')
     voto = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
+
+
+class Follower(models.Model):
+    seguitore = models.ForeignKey(User, on_delete=models.CASCADE)
+    seguito = models.ForeignKey(User, on_delete=models.CASCADE)

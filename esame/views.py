@@ -40,7 +40,8 @@ class ProfiloView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfiloView, self).get_context_data(**kwargs)
-        context['profilo'] = ProfiloDettagliato.objects.get(utente=self.request.user)
+        #prova = self.kwargs['pk']
+        context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
         return context
 
 
@@ -81,6 +82,6 @@ class VistaFiltrata(ListView):
     model = Battute
 
     def get_queryset(self):
-        tipo = self.request.resolver_match.kwargs['tipo']
-        qs = Battute.objects.filter(tipo=tipo)
+        tipo2 = self.request.resolver_match.kwargs['tipo']
+        qs = Battute.objects.filter(tipo=tipo2)
         return qs
