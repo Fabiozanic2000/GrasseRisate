@@ -16,6 +16,7 @@ class HomeView(ListView):
     model = Battute
 
     def get_queryset(self):
+        #qs = User.objects.all()
         return self.model.objects.order_by('-tempo')
 
 
@@ -43,6 +44,9 @@ class ProfiloView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProfiloView, self).get_context_data(**kwargs)
         context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
+        if not context['profilo']:
+            ProfiloDettagliato.objects.create(utente_id=self.kwargs['pk'])
+            context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
         if self.request.user.is_authenticated:
             puo_seguire = Followers.objects.filter(seguitore=self.request.user, seguito_id=self.kwargs['pk'])
             if puo_seguire:

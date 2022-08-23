@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import Avg
+from annoying.fields import AutoOneToOneField
 
 SCELTE = [('Sat', 'Satira'),
           ('Bar', 'Barzelletta'),
@@ -12,7 +13,7 @@ SCELTE = [('Sat', 'Satira'),
 
 
 class ProfiloDettagliato(models.Model):
-    utente = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ciao')
+    utente = AutoOneToOneField(User, on_delete=models.CASCADE, related_name='ciao', primary_key=True)
     foto_profilo = models.ImageField(null=True)
     bio = models.TextField(default="", blank=True)
     nome = models.CharField(max_length=25, blank=True)
