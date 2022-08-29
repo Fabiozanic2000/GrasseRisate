@@ -19,7 +19,12 @@ class HomeView(ListView):
     model = Battute
 
     def get_queryset(self):
-        return self.model.objects.order_by('-tempo')
+        if self.request.user.is_authenticated:
+            return self.model.objects.order_by('-tempo').exclude(utente_id=self.request.user.id)
+        else:
+            return self.model.objects.order_by('-tempo')
+
+
 
 
 class RegistrazioneView(CreateView):
@@ -43,13 +48,6 @@ class ProfiloView(DetailView):
     template_name = 'profilo.html'
     model = ProfiloDettagliato
 
-    # def get_queryset(self):
-    #     qs = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk']).exists()
-    #     if not qs:
-    #         ProfiloDettagliato.objects.create(utente_id=self.kwargs['pk'])
-    #     qs = ProfiloDettagliato.objects.get(utente_id=self.kwargs['pk'])
-    #     return qs
-    #
     def get_context_data(self, **kwargs):
 
         context = super(ProfiloView, self).get_context_data(**kwargs)
@@ -67,26 +65,6 @@ class ProfiloView(DetailView):
             context['puo_seguire'] = True
         return context
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(ProfiloView, self).get_context_data(**kwargs)
-    #     context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
-    #     context['fotina'] = context['profilo'].get().foto_profilo
-    #     qs = Battute.objects.filter(utente=self.kwargs['pk'])
-    #     qs2 = Recensioni.objects.filter(battuta__in=qs).aggregate(Avg('voto')).get('voto__avg')
-    #     context['media'] = qs2
-    #     if not context['profilo']:
-    #         ProfiloDettagliato.objects.create(utente_id=self.kwargs['pk'])
-    #         context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
-    #     if self.request.user.is_authenticated:
-    #         puo_seguire = Followers.objects.filter(seguitore=self.request.user, seguito_id=self.kwargs['pk'])
-    #         if puo_seguire:
-    #             context['puo_seguire'] = False
-    #         else:
-    #             context['puo_seguire'] = True
-    #     context['followers'] = Followers.objects.filter(seguito=self.kwargs['pk']).count()
-    #     context['following'] = Followers.objects.filter(seguitore=self.kwargs['pk']).count()
-    #     return context
-
 
 class AggiungiRecensione(LoginRequiredMixin, CreateView):
     model = Recensioni
@@ -98,6 +76,15 @@ class AggiungiRecensione(LoginRequiredMixin, CreateView):
         form.instance.utente = self.request.user
         form.instance.battuta_id = self.kwargs['pk']
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(AggiungiRecensione, self).get_context_data(**kwargs)
+        conteggio = Recensioni.objects.filter(battuta=self.kwargs['pk'], utente=self.request.user).count()
+        if conteggio >= 1:
+            context['puo_recensire'] = False
+        else:
+            context['puo_recensire'] = True
+        return context
 
 
 class ModificaProfilo(LoginRequiredMixin, UpdateView):

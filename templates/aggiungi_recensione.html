@@ -7,9 +7,9 @@
 
 
 {% block contenuto %}
-
+    {% if puo_recensire %}
     <div class="container-xl">
-        <p class="h1">Aggiungi il tuo voto da 1 a 10!</p>
+        <p class="h1" style="text-align:center">Aggiungi il tuo voto da 1 a 10!</p>
         <div style="text-align:center">
             <div class="card text-bg-warning mb-3" >
                 <h6 class="card-header" type="col:yellow">{{ object.utente }}</h6>
@@ -24,5 +24,10 @@
             </div>
         </div>
     </div>
+
+        {% else %}
+        <p class="h2"  style="text-align:center; color:red">Hai già recensito questa battuta, non puoi più farlo</p>
+            <div style="text-align: center;"><a href="{% url 'home' %}"><button type="button" class="btn btn-primary btn-lg">Torna alla home</button></a></div>
+    {% endif %}
 {% endblock %}
 </html>
