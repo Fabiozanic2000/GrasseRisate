@@ -1,22 +1,24 @@
 from types import NoneType
 
+from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.db.models import Avg
-from annoying.fields import AutoOneToOneField
+from django.db.models import Avg, signals
 
-SCELTE = [('Sat', 'Satira'),
-          ('Bar', 'Barzelletta'),
-          ('Bhu', 'Black Humor'),
-          ('Bsq', 'Battute Squallide')]
+SCELTE = [('Satira', 'Satira'),
+          ('Barzelletta', 'Barzelletta'),
+          ('Black humor', 'Black Humor'),
+          ('Battuta squallida', 'Battuta Squallida'),
+          ('Gioco di parole', 'Gioco di parole'),
+          ('Notizia divertente', 'Notizia divertente')]
 
 
 class Battute(models.Model):
     testo = models.TextField(default="")
     utente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='utentebat')
     tempo = models.DateTimeField(auto_now=True)
-    tipo = models.CharField(choices=SCELTE, default='bar', max_length=3)
+    tipo = models.CharField(choices=SCELTE, default='bar', max_length=25)
 
     @property
     def calcola_media(self):
@@ -60,3 +62,13 @@ class ProfiloDettagliato(models.Model):
         qs = Battute.objects.filter(utente=self.utente)
         qs2 = Recensioni.objects.filter(battuta__in=qs).aggregate(Avg('voto')).get('voto__avg')
         return qs2
+
+
+def create_model_b(sender, instance, created, **kwargs):
+    """Create ModelB for every new ModelA."""
+    if created:
+        ProfiloDettagliato.objects.create(utente=instance)
+
+
+signals.post_save.connect(create_model_b, sender=User, weak=False,
+                          dispatch_uid='models.create_model_b')

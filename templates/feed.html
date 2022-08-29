@@ -7,10 +7,37 @@
 {% endblock %}
 
 {% block contenuto %}
+
     <div class="container">
         <h1> <div style="text-align: center;"> Benvenuto su GRASSERISATE {% if user.is_authenticated %} , {{ user.username }}{% endif %}!</div></h1>
         <p class="lead" style="text-align:center">
             Ecco il tuo feed con le battute di chi segui!
+                {% if user.is_authenticated %}
+            <div style="text-align:center">
+                <a href="{% url  "aggiungi_battuta"%}">
+                    <button type="button" class="btn btn-primary">
+                        Aggiungi una battuta!
+                    </button>
+                </a>
+                <a href="{% url  "profilo" pk=user.id %}">
+                    <button type="button" class="btn btn-info">
+                        Vai al tuo profilo!
+                    </button>
+                </a>
+                <a href="{% url  "filtro"%}">
+                    <button type="button" class="btn btn-secondary">
+                        Filtra
+                    </button>
+                </a>
+
+                <a href='{% url 'logout' %}'>
+                    <button type="button" class="btn btn-danger">
+                        Logout
+                    </button>
+                </a>
+            </div>
+        {% endif %}
+        <br>
         <div class="container text-center">
             <div class="row">
                 {% if quanti >= 1 %}
@@ -48,32 +75,7 @@
                     </div>
                     </div>
                 {% endif %}
-        {% if user.is_authenticated %}
-            <div style="text-align:center">
-                <a href="{% url  "aggiungi_battuta"%}">
-                    <button type="button" class="btn btn-primary">
-                        Aggiungi una battuta!
-                    </button>
-                </a>
-                <a href="{% url  "profilo" pk=user.id %}">
-                    <button type="button" class="btn btn-info">
-                        Vai al tuo profilo!
-                    </button>
-                </a>
-                <a href="{% url  "filtro"%}">
-                    <button type="button" class="btn btn-secondary">
-                        Filtra
-                    </button>
-                </a>
 
-                <a href='{% url 'logout' %}'>
-                    <button type="button" class="btn btn-danger">
-                        Logout
-                    </button>
-                </a>
-            </div>
-        {% endif %}
-        <br>
         <div style="text-align:center">
             {% for b in object_list %}
 

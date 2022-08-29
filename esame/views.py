@@ -19,7 +19,6 @@ class HomeView(ListView):
     model = Battute
 
     def get_queryset(self):
-        # qs = User.objects.all()
         return self.model.objects.order_by('-tempo')
 
 
@@ -44,7 +43,15 @@ class ProfiloView(DetailView):
     template_name = 'profilo.html'
     model = ProfiloDettagliato
 
+    # def get_queryset(self):
+    #     qs = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk']).exists()
+    #     if not qs:
+    #         ProfiloDettagliato.objects.create(utente_id=self.kwargs['pk'])
+    #     qs = ProfiloDettagliato.objects.get(utente_id=self.kwargs['pk'])
+    #     return qs
+    #
     def get_context_data(self, **kwargs):
+
         context = super(ProfiloView, self).get_context_data(**kwargs)
         context['nomeutente'] = User.objects.filter(id=self.kwargs['pk']).get().username
 
@@ -53,13 +60,17 @@ class ProfiloView(DetailView):
         context['media'] = qs2
         context['followers'] = Followers.objects.filter(seguito=self.kwargs['pk']).count()
         context['following'] = Followers.objects.filter(seguitore=self.kwargs['pk']).count()
+        puo_seguire = Followers.objects.filter(seguitore=self.request.user, seguito_id=self.kwargs['pk'])
+        if puo_seguire:
+            context['puo_seguire'] = False
+        else:
+            context['puo_seguire'] = True
         return context
 
     # def get_context_data(self, **kwargs):
     #     context = super(ProfiloView, self).get_context_data(**kwargs)
     #     context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
     #     context['fotina'] = context['profilo'].get().foto_profilo
-    #     nomino = context['profilo'].get()
     #     qs = Battute.objects.filter(utente=self.kwargs['pk'])
     #     qs2 = Recensioni.objects.filter(battuta__in=qs).aggregate(Avg('voto')).get('voto__avg')
     #     context['media'] = qs2
