@@ -9,7 +9,7 @@
 {% block contenuto %}
 
     <div class="container">
-        <p class="h1" style="text-align:center"> Profilo di {{ object.username }}</p>
+        <p class="h1" style="text-align:center"> Profilo di {{ nomeutente }}</p>
         {% if user.is_authenticated %}
             {% if request.user.id == view.kwargs.pk %}
                 <div style="text-align: center;"><a href="{% url 'modifica_profilo' pk=view.kwargs.pk%}">
@@ -32,7 +32,7 @@
             <tr>
                 <th>Foto</th>
 
-                <th><p class="h6" style="text-align:center"><img src="/media/{{ fotina }}" alt="Immagine non disponibile" width="10%"> </p></th>
+                <th><p class="h6" style="text-align:center"><img src="/media/{{ object.foto_profilo }}" alt="Immagine non disponibile" width="10%"> </p></th>
             </tr>
             <tr>
                 <th>Follower</th>
@@ -48,27 +48,27 @@
             </tr>
             <tr>
                 <th>Nome</th>
-                <th><p class="h6" style="text-align:center">{{ profilo.nome }} </p></th>
+                <th><p class="h6" style="text-align:center">{{ object.nome }} </p></th>
             </tr>
             <tr>
                 <th>Cognome</th>
-                <th><p class="h6" style="text-align:center">{{ profilo.cognome }} </p></th>
+                <th><p class="h6" style="text-align:center">{{ object.cognome }} </p></th>
             </tr>
             <tr>
                 <th>Email</th>
-                <th><p class="h6" style="text-align:center">{{ profilo.email }}</p></th>
+                <th><p class="h6" style="text-align:center">{{ object.email }}</p></th>
             </tr>
             <tr>
                 <th>Data di nascita</th>
-                <th><p class="h6" style="text-align:center">{{ profilo.datadinascita }}</p></th>
+                <th><p class="h6" style="text-align:center">{{ object.datadinascita }}</p></th>
             </tr>
             <tr>
                 <th>Città</th>
-                <th><p class="h6" style="text-align:center">{{ profilo.citta }}</p></th>
+                <th><p class="h6" style="text-align:center">{{ object.citta }}</p></th>
             </tr>
             <tr>
                 <th>Bio</th>
-                <th><p class="h6" style="text-align:center"> {{ profilo.bio }} </p></th>
+                <th><p class="h6" style="text-align:center"> {{ object.bio }} </p></th>
             </tr>
 
 
