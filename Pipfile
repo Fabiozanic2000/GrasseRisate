@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 django = "*"
 todo = "*"
+django-crispy-forms = "*"
+django-multiselectfield = "*"
+django-annoying = "*"
+pillow = "*"
 
 [dev-packages]
 
