@@ -47,11 +47,11 @@ class Followers(models.Model):
 
 class ProfiloDettagliato(models.Model):
     utente = AutoOneToOneField(User, on_delete=models.CASCADE, related_name='ciao', primary_key=True)
-    foto_profilo = models.ImageField(null=True)
+    foto_profilo = models.ImageField(null=True, blank=True, upload_to='images/')
     bio = models.TextField(default="", blank=True)
     nome = models.CharField(max_length=25, blank=True)
     cognome = models.CharField(max_length=50, blank=True)
-    datadinascita = models.DateField(null=True)
+    datadinascita = models.DateField(null=True, blank=True)
     email = models.EmailField(null=True)
     citta = models.CharField(max_length=50, blank=True)
 
