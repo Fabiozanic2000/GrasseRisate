@@ -52,7 +52,7 @@ class ProfiloDettagliato(models.Model):
     nome = models.CharField(max_length=25, blank=True)
     cognome = models.CharField(max_length=50, blank=True)
     datadinascita = models.DateField(null=True, blank=True)
-    email = models.EmailField(null=True)
+    email = models.EmailField(null=True, blank=True)
     citta = models.CharField(max_length=50, blank=True)
 
     @property

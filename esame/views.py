@@ -47,6 +47,7 @@ class ProfiloView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProfiloView, self).get_context_data(**kwargs)
         context['profilo'] = ProfiloDettagliato.objects.filter(utente_id=self.kwargs['pk'])
+        context['fotina'] = context['profilo'].get().foto_profilo
         qs = Battute.objects.filter(utente=self.kwargs['pk'])
         qs2 = Recensioni.objects.filter(battuta__in=qs).aggregate(Avg('voto')).get('voto__avg')
         context['media'] = qs2
