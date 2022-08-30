@@ -8,9 +8,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, TemplateView
 
-from esame.forms import FormFiltro
+from esame.forms import FormFiltro, FormRicercaProfilo
 from esame.models import Battute, Recensioni, ProfiloDettagliato, Followers
 
 
@@ -23,8 +23,6 @@ class HomeView(ListView):
             return self.model.objects.order_by('-tempo').exclude(utente_id=self.request.user.id)
         else:
             return self.model.objects.order_by('-tempo')
-
-
 
 
 class RegistrazioneView(CreateView):
@@ -55,7 +53,11 @@ class ProfiloView(DetailView):
 
         qs = Battute.objects.filter(utente=self.kwargs['pk'])
         qs2 = Recensioni.objects.filter(battuta__in=qs).aggregate(Avg('voto')).get('voto__avg')
-        context['media'] = qs2
+        if type(qs2) is NoneType:
+            media_arrotondata = qs2
+        else:
+            media_arrotondata = round(qs2, 2)
+        context['media'] = media_arrotondata
         context['followers'] = Followers.objects.filter(seguito=self.kwargs['pk']).count()
         context['following'] = Followers.objects.filter(seguitore=self.kwargs['pk']).count()
         puo_seguire = Followers.objects.filter(seguitore=self.request.user, seguito_id=self.kwargs['pk'])
@@ -63,6 +65,7 @@ class ProfiloView(DetailView):
             context['puo_seguire'] = False
         else:
             context['puo_seguire'] = True
+
         return context
 
 
@@ -148,4 +151,52 @@ class FeedView(LoginRequiredMixin, ListView):
         if len(lista) >= 3:
             context['terzo'] = lista[2][1]
             context['terzamedia'] = lista[1][0]
+        chi_segue = Followers.objects.filter(seguitore=self.request.user.id).values_list('seguito_id')
+        id_altri = User.objects.exclude(id__in=chi_segue).exclude(id=self.request.user.id).values_list('id')
+        id_altri_det = ProfiloDettagliato.objects.filter(utente_id__in=id_altri)
+        lista = [(persona.media_profilo, persona.utente) for persona in id_altri_det if
+                 type(persona.media_profilo) is not NoneType]
+        lista.sort(reverse=True)
+        if len(lista) > 0:
+            context['test'] = True
+            context['migliore_following'] = lista[0][1]
+            context['migliore_media'] = lista[0][0]
+        else:
+            context['test'] = False
+        return context
+
+
+def cerca_profilo(request):
+    if request.method == "POST":
+        form = FormRicercaProfilo(request.POST)
+        if form.is_valid():
+            nick = form.cleaned_data.get('nick')
+            test = User.objects.filter(username=nick).count()
+            if test >= 1:
+                nick_id = User.objects.filter(username=nick).get().id
+                return redirect("profilo", nick_id)
+            else:
+                return redirect("errore_ricerca")
+
+    else:
+        form = FormRicercaProfilo()
+
+    return render(request, template_name='form_ricerca.html', context={"form": form})
+
+
+class ErroreRicerca(TemplateView):
+    template_name = "errore_ricerca.html"
+
+
+class BattuteProfilo(ListView):
+    template_name = "battute_profilo.html"
+    model = Battute
+
+    def get_queryset(self):
+        qs = Battute.objects.filter(utente_id=self.kwargs['pk'])
+        return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(BattuteProfilo, self).get_context_data(**kwargs)
+        context['nickname'] = User.objects.filter(id=self.kwargs['pk']).get().username
         return context

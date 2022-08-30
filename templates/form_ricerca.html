@@ -2,15 +2,14 @@
 
 {% extends 'base.html' %}
 {% block titolo %}
-    Form filtro
+    Form Ricerca
 {% endblock %}
 
 {% block contenuto %}
     <div style="text-align:center">
-    <p class="h1">Selezionare il tipo di battute da visualizzare</p>
-       <p class="h4" style="color:red">Attenzione! Il filtro viene applicato a TUTTE le battute!</p>
+    <p class="h1">Inserire lo username del profilo da cercare</p><br>
     <div class="container">
-    <form action="{% url 'filtro' %}" method="POST"> {% csrf_token %}
+    <form action="{% url 'cerca_profilo' %}" method="POST"> {% csrf_token %}
         {{form.as_p}}
         <input type="submit" value="Cerca"> </form>
     </div>

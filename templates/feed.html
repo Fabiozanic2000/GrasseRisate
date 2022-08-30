@@ -29,6 +29,11 @@
                         Filtra
                     </button>
                 </a>
+                <a href="{% url  "cerca_profilo" %}">
+                    <button type="button" class="btn btn-secondary">
+                        Cerca profilo
+                    </button>
+                </a>
 
                 <a href='{% url 'logout' %}'>
                     <button type="button" class="btn btn-danger">
@@ -43,7 +48,7 @@
                 {% if quanti >= 1 %}
                     <div class="col">
                         <div class="card text-bg-warning mb-3" style="max-width: 18rem;">
-                            <div class="card-header"><div style="color:gold">Il più divertente</div></div>
+                            <div class="card-header" style="background-color:gold">Il più divertente</div>
                             <div class="card-body">
                                 <h5 class="card-title"> <a href = {% url 'profilo' pk=primo.id %}>{{ primo.username }}</a></h5>
                                 <p class="card-text"> Media recensioni: {{ primamedia }}</p>
@@ -54,7 +59,7 @@
                 {% if quanti >= 2 %}
                     <div class="col">
                         <div class="card text-bg-warning mb-3" style="max-width: 18rem;">
-                            <div class="card-header"><div style="color:silver">Il secondo più divertente</div></div>
+                            <div class="card-header" style="background-color:silver">Il secondo più divertente</div>
                             <div class="card-body">
                                 <h5 class="card-title"> <a href = {% url 'profilo' pk=secondo.id %}>{{ secondo.username }}</a></h5>
                                 <p class="card-text"> Media recensioni: {{ secondamedia }}</p>
@@ -65,7 +70,7 @@
                 {% if quanti >= 3 %}
                     <div class="col">
                         <div class="card text-bg-warning mb-3" style="max-width: 18rem;">
-                            <div class="card-header"><div style="color:saddlebrown">Il terzo più divertente</div></div>
+                            <div class="card-header" style="background-color:saddlebrown">Il terzo più divertente</div>
                             <div class="card-body">
                                 <h5 class="card-title"> <a href = {% url 'profilo' pk=terzo.id %}>{{ terzo.username }}</a></h5>
                                 <p class="card-text"> Media recensioni: {{ terzamedia }}</p>
@@ -76,11 +81,15 @@
                     </div>
                 {% endif %}
 
+    {% if test %}
+        <p class="h5"> <b>Profilo Suggerito:</b> <a href="{% url 'profilo' pk=migliore_following.id %}">{{ migliore_following }}</a></p>
+    {% endif %}
+
         <div style="text-align:center">
             {% for b in object_list %}
 
-                <div class="card">
-                    <h4 class="card-header"> <a href="{% url "profilo" pk=b.utente_id %}"> {{ b.utente }}  </a> </h4>
+                <div class="card border-warning mb-3">
+                    <h4 class="card-header" style="background-color: lightyellow"> <a href="{% url "profilo" pk=b.utente_id %}"> {{ b.utente }}  </a> </h4>
                     <div class="card-body">
                         <h6 class="card-title" > <small>{{ b.tipo }}</small>  </h6>
                         <p class="card-text"> {{ b.testo }} </p>

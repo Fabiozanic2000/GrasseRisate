@@ -61,7 +61,11 @@ class ProfiloDettagliato(models.Model):
     def media_profilo(self):
         qs = Battute.objects.filter(utente=self.utente)
         qs2 = Recensioni.objects.filter(battuta__in=qs).aggregate(Avg('voto')).get('voto__avg')
-        return qs2
+        if type(qs2) is NoneType:
+            media = qs2
+        else:
+            media = round(qs2, 2)
+        return media
 
 
 def create_model_b(sender, instance, created, **kwargs):

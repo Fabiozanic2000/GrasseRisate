@@ -3,43 +3,18 @@
 {% extends 'base.html' %}
 
 {% block titolo %}
-    GRASSERISATE
+    Battute di {{ nickname }}
 {% endblock %}
 
 
 {% block contenuto %}
     <div class="container">
-        <h1> <div style="text-align: center;"> Benvenut* su GRASSERISATE {% if user.is_authenticated %} , {{ user.username }}{% endif %}!</div></h1>
+        <h1> <div style="text-align: center;"> Battute di {{ nickname }}!</div></h1>
         <p class="lead" style="text-align:center">
-            Ecco le ultime battute pubblicate dagli utenti!
+            Ecco le sue spassosissime battute!
         </p>
         {% if user.is_authenticated %}
-            <div style="text-align:center">
-            <a href="{% url  "feed" %}">
-                    <button type="button" class="btn btn-warning">
-                        Il tuo feed
-                    </button>
-                </a>
-                <a href="{% url  "aggiungi_battuta" %}">
-                    <button type="button" class="btn btn-primary">
-                        Aggiungi una battuta!
-                    </button>
-                </a>
-                <a href="{% url  "profilo" pk=user.id %}">
-                    <button type="button" class="btn btn-info">
-                        Il tuo profilo
-                    </button>
-                </a>
-                <a href="{% url  "filtro" %}">
-                    <button type="button" class="btn btn-secondary">
-                        Filtra
-                    </button>
-                </a>
-                <a href="{% url  "cerca_profilo" %}">
-                    <button type="button" class="btn btn-secondary">
-                        Cerca profilo
-                    </button>
-                </a>
+            <div style="text-align:right">
                 <a href='{% url 'logout' %}'>
                     <button type="button" class="btn btn-danger">
                         Logout
@@ -79,7 +54,7 @@
                     {% if user.is_authenticated %}
                         <a href="{% url "aggiungi_recensione" pk=b.id %}" class="btn btn-primary">Recensisci!</a>
                     {% else %}
-                        <p class="card-text" style="color:red"> Non puoi recensire perchè non hai effettuato il login </p>
+                        <p class="card-text" style="color:red"> Non puoi recensire perché non hai effettuato il login </p>
                     {% endif %}
                     Media recensioni: {{ b.calcola_media}}
                 </div>

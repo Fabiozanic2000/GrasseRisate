@@ -7,4 +7,8 @@ class FormFiltro(forms.Form):
               ('Sat', 'Satira'),
               ('Bhu', 'Black humor'))
 
-    tipo = forms.ChoiceField(required=True, choices=SCELTE, label='Selezionare il tipo di battute')
+    tipo = forms.ChoiceField(required=True, choices=SCELTE, label='Tipo')
+
+
+class FormRicercaProfilo(forms.Form):
+    nick = forms.CharField(required=True, label="Username")
