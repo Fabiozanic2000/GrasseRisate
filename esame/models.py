@@ -20,6 +20,9 @@ class Battute(models.Model):
     tempo = models.DateTimeField(auto_now=True)
     tipo = models.CharField(choices=SCELTE, default='bar', max_length=25)
 
+    def __str__(self):
+        return self.testo + " " + self.tipo
+
     @property
     def calcola_media(self):
         media_tupla = self.battutarec.all().aggregate(Avg('voto'))
