@@ -21,7 +21,7 @@ from django.urls import path
 from esame import views, settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     path('', views.HomeView.as_view(), name='home'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout', LogoutView.as_view(), name='logout'),

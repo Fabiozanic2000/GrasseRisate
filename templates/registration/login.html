@@ -1,5 +1,7 @@
+
 <html lang="en">
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 
 {% block titolo %}
@@ -10,16 +12,21 @@
     <br>
     <div class="container" style="text-align: center">
 
-    <p class="h3">Inserire username e password per effettuare il login</p>
+        <p class="h3">Inserire username e password per effettuare il login</p>
 
-    <form method='post'>{%  csrf_token %}
+        <form method='post'>{%  csrf_token %}
 
-        {{ form|crispy}}
+            {{ form|crispy}}
 
-        <input type='submit' value='Login!'>
-    </form>
+            <input type='submit' value='Login!'>
+        </form>
 
-</div>
+        <a href="{% url 'admin:index' %}"><button type="button" class="btn btn-warning" style="text-align:center">
+            Clicca qui per andare alla pagina di login per admin</button></a>
+
+
+
+    </div>
 
 {% endblock %}
 </html>
