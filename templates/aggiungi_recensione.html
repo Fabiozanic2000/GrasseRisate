@@ -7,27 +7,34 @@
 
 
 {% block contenuto %}
-    {% if puo_recensire %}
-    <div class="container-xl">
-        <p class="h1" style="text-align:center">Aggiungi il tuo voto da 1 a 10!</p>
-        <div style="text-align:center">
-            <div class="card text-bg-warning mb-3" >
-                <h6 class="card-header" type="col:yellow">{{ object.utente }}</h6>
-                <div class="card-body">
-                    <h6 class="card-title">{{ object.tipo}}</h6>
-                    <p class="card-text">{{ object.testo }}</p>
-                    <form method="post">{% csrf_token %}
-                        {{ form.as_p }}
-                        <input type="submit" value="Recensisci!">
-                    </form>
+    {% if puo_recensire and not autorecensione %}
+        <div class="container-xl">
+            <p class="h1" style="text-align:center">Aggiungi il tuo voto da 1 a 10!</p>
+            <div style="text-align:center">
+                <div class="card text-bg-warning mb-3" >
+                    <h6 class="card-header" type="col:yellow">{{ object.utente }}</h6>
+                    <div class="card-body">
+                        <h6 class="card-title">{{ object.tipo}}</h6>
+                        <p class="card-text">{{ object.testo }}</p>
+                        <form method="post">{% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="submit" value="Recensisci!">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
-        {% else %}
+    {% if autorecensione %}
+        <p class="h2"  style="text-align:center; color:red">Lo so che ti piacerebbe, ma non puoi recensirti da solo!</p>
+        <div style="text-align: center;"><a href="{% url 'profilo' pk=request.user.id %}"><button type="button" class="btn btn-primary btn-lg">Torna alla home</button></a></div>
+
+</figure>
+    {% endif %}
+    {% if not puo_recensire %}
         <p class="h2"  style="text-align:center; color:red">Hai già recensito questa battuta, non puoi più farlo</p>
-            <div style="text-align: center;"><a href="{% url 'home' %}"><button type="button" class="btn btn-primary btn-lg">Torna alla home</button></a></div>
+        <div style="text-align: center;"><a href="{% url 'home' %}"><button type="button" class="btn btn-primary btn-lg">Torna al tuo profilo</button></a></div>
     {% endif %}
 {% endblock %}
 </html>

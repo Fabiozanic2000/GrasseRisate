@@ -60,11 +60,14 @@ class ProfiloView(DetailView):
         context['media'] = media_arrotondata
         context['followers'] = Followers.objects.filter(seguito=self.kwargs['pk']).count()
         context['following'] = Followers.objects.filter(seguitore=self.kwargs['pk']).count()
-        puo_seguire = Followers.objects.filter(seguitore=self.request.user, seguito_id=self.kwargs['pk'])
-        if puo_seguire:
-            context['puo_seguire'] = False
+        if self.request.user.is_authenticated:
+            puo_seguire = Followers.objects.filter(seguitore=self.request.user, seguito_id=self.kwargs['pk'])
+            if puo_seguire:
+                context['puo_seguire'] = False
+            else:
+                context['puo_seguire'] = True
         else:
-            context['puo_seguire'] = True
+            context['puo_seguire'] = False
 
         return context
 
@@ -83,6 +86,12 @@ class AggiungiRecensione(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(AggiungiRecensione, self).get_context_data(**kwargs)
         conteggio = Recensioni.objects.filter(battuta=self.kwargs['pk'], utente=self.request.user).count()
+        utente_battuta = Battute.objects.get(id=self.kwargs['pk'])
+        if utente_battuta.utente_id == self.request.user.id:
+            context['autorecensione'] = True
+        else:
+            context['autorecensione'] = False
+
         if conteggio >= 1:
             context['puo_recensire'] = False
         else:
@@ -193,7 +202,7 @@ class BattuteProfilo(ListView):
     model = Battute
 
     def get_queryset(self):
-        qs = Battute.objects.filter(utente_id=self.kwargs['pk'])
+        qs = Battute.objects.filter(utente_id=self.kwargs['pk']).order_by('-tempo')
         return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):

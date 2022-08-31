@@ -49,6 +49,18 @@
 
 
         {% else %}
+            <div style="text-align: center">
+            <a href="{% url  "filtro" %}">
+                    <button type="button" class="btn btn-secondary">
+                        Filtra
+                    </button>
+                </a>
+                <a href="{% url  "cerca_profilo" %}">
+                    <button type="button" class="btn btn-secondary">
+                        Cerca profilo
+                    </button>
+                </a>
+            </div>
             <div style="text-align:right">
             Non hai ancora un account?
             <a href="{% url  "registrazione"%}">

@@ -51,11 +51,6 @@
                 <div class="card-body">
                     <h6 class="card-title" > <small>{{ b.tipo }}</small>  </h6>
                     <p class="card-text"> {{ b.testo }} </p>
-                    {% if user.is_authenticated %}
-                        <a href="{% url "aggiungi_recensione" pk=b.id %}" class="btn btn-primary">Recensisci!</a>
-                    {% else %}
-                        <p class="card-text" style="color:red"> Non puoi recensire perché non hai effettuato il login </p>
-                    {% endif %}
                     Media recensioni: {{ b.calcola_media}}
                 </div>
 
