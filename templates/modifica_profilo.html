@@ -1,14 +1,21 @@
+
 <html lang="en">
 
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
 {% block titolo %}
     Modifica profilo
 {% endblock %}
 
 {% block contenuto %}
+    <p class="h2" style="text-align:center"> Modifica i campi del profilo e poi premi modifica!</p>
+    <div style="text-align:center">
     <form method="post" enctype="multipart/form-data"> {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy}}
+        <br>
     <input type="submit" value="Modifica">
     </form>
+    </div>
 {% endblock %}
 </html>
