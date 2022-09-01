@@ -149,7 +149,7 @@ class FeedView(LoginRequiredMixin, ListView):
         context = super(FeedView, self).get_context_data(**kwargs)
         lista = [(persona.media_profilo, persona.utente) for persona in ProfiloDettagliato.objects.all() if
                  type(persona.media_profilo) is not NoneType]
-        lista.sort(reverse=True)
+        lista.sort(reverse=True, key=lambda x: x[0])
         context['quanti'] = len(lista)
         if len(lista) >= 1:
             context['primo'] = lista[0][1]
@@ -165,7 +165,7 @@ class FeedView(LoginRequiredMixin, ListView):
         id_altri_det = ProfiloDettagliato.objects.filter(utente_id__in=id_altri)
         lista = [(persona.media_profilo, persona.utente) for persona in id_altri_det if
                  type(persona.media_profilo) is not NoneType]
-        lista.sort(reverse=True)
+        lista.sort(reverse=True, key=lambda x: x[0])
         if len(lista) > 0:
             context['test'] = True
             context['migliore_following'] = lista[0][1]
