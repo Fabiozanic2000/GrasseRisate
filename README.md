@@ -7,7 +7,7 @@
 #### ATTENZIONE: PER L'UTILIZZO DI QUESTO PROGETTO OCCORRE AVERE PYTHON 3.10.5
 - Per installare le dipendenze entrare nella cartella e tramite riga di comando eseguire i seguenti comandi:
 ```
-git clone https://github.com/Zanicus2000/esame.git
+git clone https://github.com/Zanicus2000/GrasseRisate.git
 pipenv shell
 pipenv install
 ```
