@@ -159,7 +159,7 @@ class FeedView(LoginRequiredMixin, ListView):
             context['secondamedia'] = lista[1][0]
         if len(lista) >= 3:
             context['terzo'] = lista[2][1]
-            context['terzamedia'] = lista[1][0]
+            context['terzamedia'] = lista[2][0]
         chi_segue = Followers.objects.filter(seguitore=self.request.user.id).values_list('seguito_id')
         id_altri = User.objects.exclude(id__in=chi_segue).exclude(id=self.request.user.id).values_list('id')
         id_altri_det = ProfiloDettagliato.objects.filter(utente_id__in=id_altri)

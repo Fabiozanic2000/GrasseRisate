@@ -9,7 +9,7 @@
 {% block contenuto %}
 
     <div class="container">
-        <h1> <div style="text-align: center;"> Benvenuto su GRASSERISATE {% if user.is_authenticated %} , {{ user.username }}{% endif %}!</div></h1>
+        <h1> <div style="text-align: center;"> Feed di {% if user.is_authenticated %}{{ user.username }}{% endif %}</div></h1>
         <p class="lead" style="text-align:center">
             Ecco il tuo feed con le battute di chi segui!
                 {% if user.is_authenticated %}
