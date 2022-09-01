@@ -26,6 +26,6 @@ python manage.py test
 
 ## Admin
 Le credenziali per accedere come admin sono
-> Username: admin
+> Username: admin <br />
 > Password: admin
 
