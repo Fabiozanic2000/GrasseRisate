@@ -51,6 +51,9 @@
                 <div class="card-body">
                     <h6 class="card-title" > <small>{{ b.tipo }}</small>  </h6>
                     <p class="card-text"> {{ b.testo }} </p>
+                    {% if puo_recensire %}
+                        <a href="{% url "aggiungi_recensione" pk=b.id %}" class="btn btn-primary">Recensisci!</a>
+                    {% endif %}
                     Media recensioni: {{ b.calcola_media}}
                 </div>
 

@@ -34,7 +34,8 @@
     {% endif %}
     {% if not puo_recensire %}
         <p class="h2"  style="text-align:center; color:red">Hai già recensito questa battuta, non puoi più farlo</p>
-        <div style="text-align: center;"><a href="{% url 'home' %}"><button type="button" class="btn btn-primary btn-lg">Torna al tuo profilo</button></a></div>
+        <div style="text-align: center;"><a href="{% url 'home' %}"><button type="button" class="btn btn-primary btn-lg">Torna alla home</button></a></div> <br>
+        <div style="text-align: center;"><a href="{% url 'feed' %}"><button type="button" class="btn btn-warning btn-lg">Torna al feed</button></a></div>
     {% endif %}
 {% endblock %}
 </html>

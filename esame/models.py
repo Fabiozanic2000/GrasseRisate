@@ -35,8 +35,8 @@ class Battute(models.Model):
 
 
 class Recensioni(models.Model):
-    utente = models.ForeignKey(User, on_delete=models.CASCADE)
-    battuta = models.ForeignKey(Battute, on_delete=models.CASCADE, to_field='id', related_name='battutarec')
+    utente = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    battuta = models.ForeignKey(Battute, on_delete=models.CASCADE, to_field='id', null=False, related_name='battutarec')
     voto = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
 
 
@@ -51,7 +51,7 @@ class Followers(models.Model):
 
 
 class ProfiloDettagliato(models.Model):
-    utente = AutoOneToOneField(User, on_delete=models.CASCADE, related_name='ciao', primary_key=True)
+    utente = AutoOneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     foto_profilo = models.ImageField(null=True, blank=True, upload_to='images/')
     bio = models.TextField(default="", blank=True)
     nome = models.CharField(max_length=25, blank=True)

@@ -129,7 +129,7 @@ class VistaFiltrata(ListView):
         return qs
 
 
-class FollowView(View):
+class FollowView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         Followers(seguitore=request.user, seguito_id=self.kwargs['pk']).save()
         url = reverse("profilo", kwargs={"pk": self.kwargs['pk']})
@@ -208,4 +208,8 @@ class BattuteProfilo(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(BattuteProfilo, self).get_context_data(**kwargs)
         context['nickname'] = User.objects.filter(id=self.kwargs['pk']).get().username
+        if self.request.user.id == self.kwargs['pk']:
+            context['puo_recensire'] = False
+        else:
+            context['puo_recensire'] = True
         return context
