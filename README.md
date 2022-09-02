@@ -11,10 +11,14 @@ git clone https://github.com/Zanicus2000/GrasseRisate.git
 pipenv shell
 pipenv install
 ```
-- Se le dipendenze sono già state installate, allora eseguire soltanto i seguenti comandi:
+- A questo punto, eseguire il comando:
+```
+python manage.py runserver
+```
+- Se e dipendenze erano già state installate in precedenza, allora eseguire soltanto i seguenti comandi (sempre all'interno della cartella):
 ```
 pipenv shell
-pipenv install
+python manage.py runserver
 ```
 
 Il sito è accessibile tramite qualsiasi browser all'indirizzo 127.0.0.1:8000
